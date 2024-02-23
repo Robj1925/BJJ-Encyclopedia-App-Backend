@@ -12,6 +12,9 @@ public class UserService {
     @Autowired //
     private UserRepository userRepository;
 
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
+    }
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

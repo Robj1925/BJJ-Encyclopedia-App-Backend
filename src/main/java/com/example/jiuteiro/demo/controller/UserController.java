@@ -3,10 +3,7 @@ package com.example.jiuteiro.demo.controller;
 import com.example.jiuteiro.demo.model.User;
 import com.example.jiuteiro.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,6 +12,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/users/{user_id}")
+    public User getUserById(@PathVariable Integer user_id) {
+        return userService.getUserById(user_id);
+    }
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
