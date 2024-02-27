@@ -21,4 +21,12 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+    public boolean deleteUser(Integer id) {
+        User findUser = getUserById(id);
+        if (findUser != null) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
