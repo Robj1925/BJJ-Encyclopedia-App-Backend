@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "users")
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 public class User {
     @Id
     @GeneratedValue

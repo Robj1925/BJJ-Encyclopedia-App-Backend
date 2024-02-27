@@ -1,5 +1,6 @@
 package com.example.jiuteiro.demo.service;
 
+import com.example.jiuteiro.demo.dto.UserRequest;
 import com.example.jiuteiro.demo.model.User;
 import com.example.jiuteiro.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,11 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public User saveUser(UserRequest userRequest) {
+        User newUser = User
+                .build(0, userRequest.getUsername(), userRequest.getPassword());
+
+        return userRepository.save(newUser);
     }
     public boolean deleteUser(Integer id) {
         User findUser = getUserById(id);

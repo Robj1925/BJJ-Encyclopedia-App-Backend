@@ -1,8 +1,11 @@
 package com.example.jiuteiro.demo.controller;
 
+import com.example.jiuteiro.demo.dto.UserRequest;
 import com.example.jiuteiro.demo.model.User;
 import com.example.jiuteiro.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +24,7 @@ public class UserController {
         return userService.getAllUsers();
     }
     @PostMapping("/addUser")
-    public User postUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<User> saveUser(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<>(userService.saveUser(userRequest), HttpStatus.CREATED);
     }
 }
