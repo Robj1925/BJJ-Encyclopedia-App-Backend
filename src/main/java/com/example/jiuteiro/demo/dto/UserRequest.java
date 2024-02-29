@@ -1,6 +1,8 @@
 package com.example.jiuteiro.demo.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 public class UserRequest {
-    @Column(name = "username")
+    @NotBlank(message = "Username cannot be null or blank!") // validation to make sure cant be null
     private String username;
-    @Column(name = "password")
+    @NotBlank(message = "Password cannot be null or blank!")
     private String password;
 
 }
