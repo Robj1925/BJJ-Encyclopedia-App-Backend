@@ -1,8 +1,10 @@
 package com.example.jiuteiro.demo.controller;
 
+import com.example.jiuteiro.demo.dto.LoginRequest;
 import com.example.jiuteiro.demo.dto.UserRequest;
 import com.example.jiuteiro.demo.exception.UserNotFoundException;
 import com.example.jiuteiro.demo.model.User;
+import com.example.jiuteiro.demo.response.LoginMessage;
 import com.example.jiuteiro.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 public class UserController {
     @Autowired
@@ -35,5 +38,10 @@ public class UserController {
     @PostMapping("/addUser")
     public ResponseEntity<User> saveUser(@RequestBody @Valid UserRequest userRequest) {
         return new ResponseEntity<>(userService.saveUser(userRequest), HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        LoginMessage loginMessage = userService.loginUser(loginRequest);
+        return ResponseEntity.ok(loginMessage);
     }
 }
