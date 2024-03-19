@@ -44,4 +44,12 @@ public class UserController {
         LoginMessage loginMessage = userService.loginUser(loginRequest);
         return ResponseEntity.ok(loginMessage);
     }
+    @PostMapping("/users/{user_id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Integer user_id) {
+        try {
+            return ResponseEntity.ok(userService.deleteUser(user_id));
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
