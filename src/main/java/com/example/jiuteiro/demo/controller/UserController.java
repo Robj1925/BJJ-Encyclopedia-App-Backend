@@ -1,10 +1,12 @@
 package com.example.jiuteiro.demo.controller;
 
 import com.example.jiuteiro.demo.dto.LoginRequest;
+import com.example.jiuteiro.demo.dto.RegisterRequest;
 import com.example.jiuteiro.demo.dto.UserRequest;
 import com.example.jiuteiro.demo.exception.UserNotFoundException;
 import com.example.jiuteiro.demo.model.User;
 import com.example.jiuteiro.demo.response.LoginMessage;
+import com.example.jiuteiro.demo.response.RegisterMessage;
 import com.example.jiuteiro.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,11 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         LoginMessage loginMessage = userService.loginUser(loginRequest);
         return ResponseEntity.ok(loginMessage);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+        RegisterMessage registerMessage = userService.registerUser(registerRequest);
+        return ResponseEntity.ok(registerMessage);
     }
     @PostMapping("/users/{user_id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Integer user_id) {

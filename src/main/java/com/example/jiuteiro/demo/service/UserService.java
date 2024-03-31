@@ -1,11 +1,13 @@
 package com.example.jiuteiro.demo.service;
 
 import com.example.jiuteiro.demo.dto.LoginRequest;
+import com.example.jiuteiro.demo.dto.RegisterRequest;
 import com.example.jiuteiro.demo.dto.UserRequest;
 import com.example.jiuteiro.demo.exception.UserNotFoundException;
 import com.example.jiuteiro.demo.model.User;
 import com.example.jiuteiro.demo.repository.UserRepository;
 import com.example.jiuteiro.demo.response.LoginMessage;
+import com.example.jiuteiro.demo.response.RegisterMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,6 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found by id: " + id);
         }
-
     }
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -37,13 +38,23 @@ public class UserService {
 
         return userRepository.save(newUser);
     }
-    public boolean deleteUser(Integer id) throws UserNotFoundException {
-        User findUser = getUserById(id);
-        if (findUser != null) {
-            userRepository.deleteById(id);
-            return true;
+    public RegisterMessage registerUser(RegisterRequest registerRequest) {
+        String msg = "";
+        User user = userRepository.findByUsername(registerRequest.getUsername());
+        if (user == null) {
+            String inputPassword = registerRequest.getPassword();
+            int passwordLen = inputPassword.length();
+            if (passwordLen < 7) {
+                return new RegisterMessage("Password must be more than 8 characters", false);
+            } else {
+                userRepository.save(User
+                        .build(0, registerRequest.getUsername(), registerRequest.getPassword()));
+                return new RegisterMessage("Succesfully Registered!", true);
+            }
+        } else {
+            return new RegisterMessage("Username already exist", false);
+
         }
-        return false;
     }
     public LoginMessage loginUser(LoginRequest loginRequest) {
         String msg = "";
@@ -65,4 +76,13 @@ public class UserService {
             return new LoginMessage("Username does not exist", false);
         }
     }
+    public boolean deleteUser(Integer id) throws UserNotFoundException {
+        User findUser = getUserById(id);
+        if (findUser != null) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }
