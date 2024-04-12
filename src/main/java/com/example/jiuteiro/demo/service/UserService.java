@@ -41,6 +41,13 @@ public class UserService {
     public RegisterMessage registerUser(RegisterRequest registerRequest) {
         String msg = "";
         User user = userRepository.findByUsername(registerRequest.getUsername());
+//        User userTemp = null;
+//        List<User> allUsers = getAllUsers();
+//        for  (User user: allUsers) {
+//            if (registerRequest.getUsername().equals(user.getUsername())) {
+//                userTemp = user;
+//            }
+//        }
         if (user == null) {
             String inputPassword = registerRequest.getPassword();
             int passwordLen = inputPassword.length();
@@ -84,5 +91,4 @@ public class UserService {
         }
         return false;
     }
-
 }
