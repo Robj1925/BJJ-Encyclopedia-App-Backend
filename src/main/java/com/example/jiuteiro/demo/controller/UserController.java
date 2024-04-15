@@ -30,7 +30,6 @@ public class UserController {
         } catch (UserNotFoundException e) {
             System.out.println(e.getMessage());
         }
-
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping("/users")
