@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -26,23 +27,26 @@ public class TaskService {
             throw new TaskNotFoundException("Task not found by id: " + id);
         }
     }
-    public boolean updateStatus(Long id) throws TaskNotFoundException {
-        Task task = getTaskById(id);
-        if (task == null) {
-            return false;
-        }
-        if (!task.getStatus()) {
-            task.setStatus(true);
+    public Task updateStatus(Long id, Task taskItem) {
+        Optional<Task> taskOpt = taskRepository.findAll()
+                                            .stream()
+                                            .filter(item -> item.getId().equals(id))
+                                            .findAny();
+
+        if (taskOpt.isPresent()) {
+            Task task = taskOpt.get();
+            task.setStatus(taskItem.getStatus());
+            task.setTitle(taskItem.getTitle());
             taskRepository.save(task);
-            return true;
+            return task;
         }
-        return false;
+            return null;
     }
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
     public Task saveTask(TaskRequest taskRequest) {
-        Task newTask = new Task(Long.valueOf(0), taskRequest.getTitle(), taskRequest.getStatus());
+        Task newTask = new Task(Long.valueOf(0), taskRequest.getTitle(), false);
         return taskRepository.save(newTask);
     }
     public boolean deleteTask(Long id) throws TaskNotFoundException {

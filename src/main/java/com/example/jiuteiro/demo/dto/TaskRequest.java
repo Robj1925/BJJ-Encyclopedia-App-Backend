@@ -10,6 +10,7 @@ public class TaskRequest {
     private Boolean status;
 
     public TaskRequest() {
+        this.status = false;
     }
 
     public TaskRequest(String title, Boolean status) {

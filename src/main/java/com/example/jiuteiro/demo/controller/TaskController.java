@@ -36,8 +36,8 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getAllTasks(), HttpStatus.OK);
     }
     @PostMapping("/addTask")
-    public ResponseEntity<Task> saveTask(@RequestBody @Valid TaskRequest taskRequest) {
-        return new ResponseEntity<>(taskService.saveTask(taskRequest), HttpStatus.CREATED);
+    public ResponseEntity<Task> saveTask() {
+        return new ResponseEntity<>(taskService.saveTask(new TaskRequest("New Task", false)), HttpStatus.CREATED);
     }
     @DeleteMapping("/tasks/{task_id}")
     public ResponseEntity<?> deleteTaskById(@PathVariable Long task_id) {
@@ -47,13 +47,13 @@ public class TaskController {
             throw new RuntimeException(e);
         }
     }
-    @PatchMapping("/tasks/{task_id}")
-    public ResponseEntity<?> updateStatusById(@PathVariable Long task_id) {
-        try {
-            return ResponseEntity.ok(taskService.updateStatus(task_id));
-        } catch (TaskNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    @PutMapping("/tasks/{task_id}")
+    public ResponseEntity<?> updateStatusById(@PathVariable Long task_id, @RequestBody Task body) {
+        //call the service
+        //get the dat back from server
+        Task updatedTask = taskService.updateStatus(task_id, body);
+        //send it back to frontend
+        return ResponseEntity.ok(updatedTask);
     }
 }
 
